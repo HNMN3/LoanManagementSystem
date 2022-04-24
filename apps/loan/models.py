@@ -1,9 +1,14 @@
+from datetime import datetime, timedelta
 from enum import Enum
 
 from django.db import models
 
 
 class LoanStatus(Enum):
+    """
+    Enum for loan status.
+    """
+
     PENDING = 'PENDING'
     APPROVED = 'APPROVED'
     REJECTED = 'REJECTED'
@@ -26,6 +31,27 @@ class LoanApplication(models.Model):
     @property
     def loan_user(self):
         return self.user.username
+
+    @classmethod
+    def create_weekly_repayment_schedules(cls, loan_application_obj: 'LoanApplication') -> None:
+        """
+        Create weekly repayment schedules for a loan application.
+
+        Args:
+            loan_application_obj (LoanApplication): Loan application object.
+        """
+        loan_term_in_weeks = loan_application_obj.loan_term_in_weeks
+        loan_emi = loan_application_obj.loan_emi
+        loan_emi_due_date = datetime.today()
+
+        for i in range(loan_term_in_weeks):
+            loan_emi_due_date = loan_emi_due_date + timedelta(weeks=1)
+            LoanRepaymentSchedule.objects.create(
+                loan_id=loan_application_obj,
+                loan_emi_paid=False,
+                loan_emi_due_date=loan_emi_due_date,
+                laon_emi_amount=loan_emi
+            )
 
 
 class LoanRepaymentSchedule(models.Model):
