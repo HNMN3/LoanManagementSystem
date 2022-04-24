@@ -12,7 +12,7 @@ from apps.loan.serializers import (LoanRepaymentScheduleSerializer,
 
 class LoanBaseApiView(APIView):
     """
-    This is the base class for all loan related views. It provides the access policy for the views. 
+    This is the base class for all loan related views. It provides the access policy for the views.
     It also provides the pagination for the views.
     """
     pagination_class = PageNumberPagination
