@@ -30,7 +30,7 @@ class LoanBaseApiView(APIView):
 
 
 class LoanRequestView(LoanBaseApiView):
-    permissions = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
         serializer = LoanSerializer(data=request.data)
@@ -46,7 +46,7 @@ class LoanRequestView(LoanBaseApiView):
 
 
 class LoanApplicationListView(LoanBaseApiView):
-    permissions = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         loan_applications = LoanApplication.objects.all()
@@ -55,7 +55,7 @@ class LoanApplicationListView(LoanBaseApiView):
 
 
 class LoanStatusView(LoanBaseApiView):
-    permissions = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, loan_id: int):
         loan_application = LoanApplication.objects.filter(loan_id=loan_id)
@@ -67,7 +67,7 @@ class LoanStatusView(LoanBaseApiView):
 
 
 class LoanRepaymentScheduleListView(LoanBaseApiView):
-    permissions = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, loan_id: int):
         loan_application = LoanApplication.objects.filter(loan_id=loan_id)
@@ -81,7 +81,7 @@ class LoanRepaymentScheduleListView(LoanBaseApiView):
 
 
 class LoanRepaymentSubmitView(LoanBaseApiView):
-    permissions = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, loan_id: int):
         loan_application = LoanApplication.objects.filter(loan_id=loan_id, user=request.user)
